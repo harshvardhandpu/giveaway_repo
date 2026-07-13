@@ -22,6 +22,7 @@ Giveaway Intelligence is a research and verification product for publicly availa
 3. The extension opens `GET /api/creator/:username` for a reputation report.
 4. Analysis jobs send public text to the AI service pipeline: parser, evidence retrieval, scoring, report generation.
 5. The API stores the returned report and evidence with Prisma.
+6. Phase 2 classifies related public posts, stores evidence embeddings in Qdrant, and maps evidence graph edges for report reasoning.
 
 ## Security boundaries
 

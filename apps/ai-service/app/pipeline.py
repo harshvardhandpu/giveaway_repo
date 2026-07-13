@@ -1,6 +1,8 @@
 import re
 from dataclasses import asdict, dataclass
 from datetime import datetime, timezone
+from .agents import EvidenceCollectorAgent
+from .embeddings import EmbeddingService
 
 @dataclass
 class ParsedGiveaway:
@@ -49,6 +51,14 @@ def analyze_giveaway(tweet_text: str) -> dict:
     discovery = DiscoveryAgent().run(tweet_text)
     parsed = ParserAgent().run(discovery["source_text"])
     evidence = EvidenceAgent().run(discovery)
+    collected = EvidenceCollectorAgent().collect([tweet_text])
+    evidence.extend([{k: v for k, v in item.items() if k in ("type", "confidence")} for item in collected])
     verification = VerificationAgent().run(evidence)
     summary = ReportAgent().run(parsed, evidence, verification)
     return {"parsed": asdict(parsed), "evidence": evidence, "verification": verification, "summary": summary, "analyzed_at": datetime.now(timezone.utc).isoformat()}
+
+def analyze_evidence(posts: list[str], query: str = "") -> dict:
+    collector = EvidenceCollectorAgent()
+    embeddings = EmbeddingService()
+    evidence = [embeddings.store_evidence(item) for item in collector.collect(posts)]
+    return {"evidence": [{k: v for k, v in item.items() if k != "embedding"} for item in evidence], "related": embeddings.search_related_evidence(query or "giveaway")}

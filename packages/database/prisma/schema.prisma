@@ -2,7 +2,8 @@ generator client { provider = "prisma-client-js" }
 datasource db { provider = "postgresql"; url = env("DATABASE_URL") }
 
 enum GiveawayStatus { ACTIVE COMPLETED DELETED UNKNOWN }
-enum EvidenceType { WINNER_CONFIRMATION TRANSACTION_PROOF HISTORICAL_GIVEAWAY SCAM_REPORT OTHER }
+enum EvidenceType { WINNER_ANNOUNCEMENT WINNER_CONFIRMATION QUOTE_TWEET TRANSACTION_PROOF SCREENSHOT_PROOF COMMUNITY_FEEDBACK HISTORICAL_GIVEAWAY SCAM_REPORT OTHER }
+enum EvidenceRelationshipType { CREATED WON_BY CONFIRMED_BY SUPPORTS CONTRADICTS REFERENCES }
 enum RiskLevel { LOW MEDIUM HIGH }
 
 model User {
@@ -56,6 +57,17 @@ model Evidence {
   confidence Float
   discoveredAt DateTime @default(now())
   @@index([giveawayId, type])
+}
+
+model EvidenceRelationship {
+  id String @id @default(cuid())
+  sourceId String
+  targetId String
+  relationshipType EvidenceRelationshipType
+  confidence Float
+  createdAt DateTime @default(now())
+  @@unique([sourceId, targetId, relationshipType])
+  @@index([targetId, relationshipType])
 }
 
 model Winner {
