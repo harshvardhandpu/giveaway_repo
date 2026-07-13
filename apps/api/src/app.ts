@@ -10,6 +10,7 @@ import { connectorRoutes } from "./routes/connectors.js";
 import { authRoutes } from "./routes/auth.js";
 import { incrementRequests, operationsRoutes } from "./routes/operations.js";
 import { config } from "./lib/config.js";
+import { registerBullBoard } from "./routes/bull-board.js";
 
 export function buildApp() {
   const app = Fastify({ logger: true });
@@ -25,5 +26,6 @@ export function buildApp() {
   app.register(evaluationRoutes);
   app.register(connectorRoutes);
   app.register(authRoutes);app.register(operationsRoutes);
+  registerBullBoard(app);
   return app;
 }
