@@ -1,0 +1,2 @@
+export interface PublicPost { id: string; text: string; author: string; url?: string; publishedAt: string; }
+export interface DiscoveryProvider { search(keyword: string): Promise<PublicPost[]>; fetchCreator(username: string): Promise<PublicPost[]>; fetchPost(id: string): Promise<PublicPost | null>; fetchReplies(id: string): Promise<PublicPost[]>; fetchHistory(username: string): Promise<PublicPost[]>; }

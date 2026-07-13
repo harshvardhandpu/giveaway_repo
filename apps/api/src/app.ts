@@ -3,6 +3,7 @@ import rateLimit from "@fastify/rate-limit";
 import Fastify from "fastify";
 import { creatorRoutes } from "./routes/creator.js";
 import { searchRoutes } from "./routes/search.js";
+import { discoveryRoutes } from "./routes/discovery.js";
 
 export function buildApp() {
   const app = Fastify({ logger: true });
@@ -11,5 +12,6 @@ export function buildApp() {
   app.get("/health", async () => ({ status: "ok" }));
   app.register(searchRoutes);
   app.register(creatorRoutes);
+  app.register(discoveryRoutes);
   return app;
 }

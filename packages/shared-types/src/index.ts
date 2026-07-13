@@ -28,3 +28,6 @@ export interface CreatorReport {
   stats?: { totalGiveaways: number; confirmedWinners: number; evidenceCollected: number };
   timeline?: Array<{ date: string; title: string; description: string; type: string }>;
 }
+
+export interface Watchlist { id: string; kind: "KEYWORD" | "CREATOR"; value: string; enabled: boolean; createdAt: string; lastChecked?: string; }
+export interface ScoreSnapshot { date: string; score: number; riskLevel: RiskLevel; }

@@ -1,0 +1,3 @@
+import { describe, expect, it } from "vitest";
+import { buildApp } from "../src/app.js";
+describe("discovery routes", () => { it("discovers public posts and manages watchlists", async () => { const app = buildApp(); const discovery = await app.inject({ method: "GET", url: "/discover?keyword=SOL" }); expect(discovery.statusCode).toBe(200); const created = await app.inject({ method: "POST", url: "/watchlists", payload: { kind: "KEYWORD", value: "SOL giveaway" } }); expect(created.statusCode).toBe(201); const listed = await app.inject({ method: "GET", url: "/watchlists" }); expect(listed.json().watchlists).toHaveLength(1); await app.close(); }); });
