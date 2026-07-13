@@ -1,1 +1,2 @@
 from .evidence_collector import EvidenceCollectorAgent
+from .investigation import InvestigationAgent

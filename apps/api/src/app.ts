@@ -4,6 +4,7 @@ import Fastify from "fastify";
 import { creatorRoutes } from "./routes/creator.js";
 import { searchRoutes } from "./routes/search.js";
 import { discoveryRoutes } from "./routes/discovery.js";
+import { investigationRoutes } from "./routes/investigation.js";
 
 export function buildApp() {
   const app = Fastify({ logger: true });
@@ -13,5 +14,6 @@ export function buildApp() {
   app.register(searchRoutes);
   app.register(creatorRoutes);
   app.register(discoveryRoutes);
+  app.register(investigationRoutes);
   return app;
 }

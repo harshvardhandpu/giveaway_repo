@@ -24,6 +24,7 @@ Giveaway Intelligence is a research and verification product for publicly availa
 5. The API stores the returned report and evidence with Prisma.
 6. Phase 2 classifies related public posts, stores evidence embeddings in Qdrant, and maps evidence graph edges for report reasoning.
 7. Phase 3 discovery providers normalize authorized public data, BullMQ workers refresh evidence and scores, and watchlists drive notifications.
+8. Phase 4 investigates evidence chronology, confidence, contradictions, narratives, and creator similarity clusters.
 
 ## Security boundaries
 
