@@ -2,7 +2,7 @@
   "name": "@giveaway/extension",
   "private": true,
   "type": "module",
-  "scripts": { "dev": "vite", "build": "tsc -b && vite build", "test": "tsc -b --pretty false" },
+  "scripts": { "dev": "vite", "build": "tsc -b && mkdir -p public && cp manifest.json public/manifest.json && vite build", "test": "tsc -b --pretty false" },
   "dependencies": {
     "@giveaway/shared-types": "workspace:*",
     "@giveaway/ui": "workspace:*",
