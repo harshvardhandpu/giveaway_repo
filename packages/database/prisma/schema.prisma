@@ -1,0 +1,84 @@
+generator client { provider = "prisma-client-js" }
+datasource db { provider = "postgresql"; url = env("DATABASE_URL") }
+
+enum GiveawayStatus { ACTIVE COMPLETED DELETED UNKNOWN }
+enum EvidenceType { WINNER_CONFIRMATION TRANSACTION_PROOF HISTORICAL_GIVEAWAY SCAM_REPORT OTHER }
+enum RiskLevel { LOW MEDIUM HIGH }
+
+model User {
+  id String @id @default(cuid())
+  email String @unique
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Creator {
+  id String @id @default(cuid())
+  username String @unique
+  displayName String?
+  trustScore Int @default(50)
+  riskLevel RiskLevel @default(MEDIUM)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  giveaways Giveaway[]
+  reports AIReport[]
+  @@index([trustScore])
+}
+
+model Giveaway {
+  id String @id @default(cuid())
+  creatorId String
+  creator Creator @relation(fields: [creatorId], references: [id], onDelete: Cascade)
+  title String
+  sourceUrl String? @unique
+  tweetText String
+  token String?
+  amount String?
+  requirements String?
+  deadline DateTime?
+  status GiveawayStatus @default(UNKNOWN)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  evidence Evidence[]
+  winners Winner[]
+  reports AIReport[]
+  @@index([creatorId, status])
+  @@index([deadline])
+}
+
+model Evidence {
+  id String @id @default(cuid())
+  giveawayId String
+  giveaway Giveaway @relation(fields: [giveawayId], references: [id], onDelete: Cascade)
+  type EvidenceType
+  url String
+  description String
+  confidence Float
+  discoveredAt DateTime @default(now())
+  @@index([giveawayId, type])
+}
+
+model Winner {
+  id String @id @default(cuid())
+  giveawayId String
+  giveaway Giveaway @relation(fields: [giveawayId], references: [id], onDelete: Cascade)
+  username String
+  confirmationUrl String?
+  confirmedAt DateTime?
+  @@unique([giveawayId, username])
+}
+
+model AIReport {
+  id String @id @default(cuid())
+  creatorId String
+  creator Creator @relation(fields: [creatorId], references: [id], onDelete: Cascade)
+  giveawayId String?
+  giveaway Giveaway? @relation(fields: [giveawayId], references: [id], onDelete: SetNull)
+  score Int
+  riskLevel RiskLevel
+  summary String
+  reasons Json
+  modelVersion String @default("phase1")
+  createdAt DateTime @default(now())
+  @@index([creatorId, createdAt])
+}

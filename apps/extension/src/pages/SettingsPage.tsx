@@ -1,0 +1,2 @@
+import { Card } from "@giveaway/ui";
+export function SettingsPage() { return <main className="space-y-4"><div><p className="eyebrow">Extension settings</p><h1>Privacy first</h1></div><Card><h2>Research boundaries</h2><p className="muted">Giveaway Intelligence only analyzes publicly available text and links. It does not automate social engagement, access wallet data, or request private keys.</p></Card><Card><h2>API connection</h2><p className="muted">The development popup connects to the API URL configured at build time.</p></Card></main>; }

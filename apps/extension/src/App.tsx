@@ -1,0 +1,3 @@
+import { useAppStore } from "./store";
+import { SearchPage } from "./pages/SearchPage"; import { ProfilePage } from "./pages/ProfilePage"; import { SettingsPage } from "./pages/SettingsPage";
+export function App() { const { page, setPage } = useAppStore(); return <div className="shell"><nav><div className="brand">GI<span>•</span></div><button className={page === "search" ? "active" : ""} onClick={() => setPage("search")}>Search</button><button className={page === "settings" ? "active" : ""} onClick={() => setPage("settings")}>Settings</button></nav>{page === "search" ? <SearchPage /> : page === "profile" ? <ProfilePage /> : <SettingsPage />}</div>; }
