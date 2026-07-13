@@ -5,6 +5,7 @@ enum GiveawayStatus { ACTIVE COMPLETED DELETED UNKNOWN }
 enum EvidenceType { WINNER_ANNOUNCEMENT WINNER_CONFIRMATION QUOTE_TWEET TRANSACTION_PROOF SCREENSHOT_PROOF COMMUNITY_FEEDBACK HISTORICAL_GIVEAWAY SCAM_REPORT OTHER }
 enum EvidenceRelationshipType { CREATED WON_BY CONFIRMED_BY SUPPORTS CONTRADICTS REFERENCES }
 enum RiskLevel { LOW MEDIUM HIGH }
+enum EvaluationLabel { LEGITIMATE SUSPICIOUS SCAM UNKNOWN }
 
 model User {
   id String @id @default(cuid())
@@ -134,3 +135,8 @@ model AIReport {
   createdAt DateTime @default(now())
   @@index([creatorId, createdAt])
 }
+
+model EvaluationDataset { id String @id @default(cuid()) name String @unique description String? createdAt DateTime @default(now()) cases EvaluationCase[] }
+model EvaluationCase { id String @id @default(cuid()) datasetId String dataset EvaluationDataset @relation(fields: [datasetId], references: [id], onDelete: Cascade) creatorUsername String giveawayUrl String? expectedResult Json? humanLabel EvaluationLabel @default(UNKNOWN) notes String? createdAt DateTime @default(now()) }
+model ScoreExperiment { id String @id @default(cuid()) scoreVersion String inputEvidence Json outputScore Int result EvaluationLabel createdAt DateTime @default(now()) @@index([scoreVersion, createdAt]) }
+model EvidenceQualityReport { id String @id @default(cuid()) evidenceType EvidenceType accuracy Float falseEvidenceRate Float sampleSize Int createdAt DateTime @default(now()) }

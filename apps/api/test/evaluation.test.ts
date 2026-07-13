@@ -1,0 +1,2 @@
+import { describe,expect,it } from "vitest"; import { evaluate,parseDataset } from "../src/lib/evaluation.js";
+describe("evaluation",()=>{it("calculates metrics and parses csv",()=>{expect(evaluate([{creatorUsername:"a",humanLabel:"SCAM",predictedLabel:"SCAM",confidence:.9},{creatorUsername:"b",humanLabel:"LEGITIMATE",predictedLabel:"SCAM",confidence:.8}])).toMatchObject({accuracy:.5,falsePositives:1});expect(parseDataset("creator,label\na,SCAM","CSV")[0]).toMatchObject({creator:"a"});});});
