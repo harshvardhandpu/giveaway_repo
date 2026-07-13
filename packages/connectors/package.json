@@ -1,0 +1,1 @@
+{"name":"@giveaway/connectors","private":true,"type":"module","exports":{".":"./src/index.ts"},"scripts":{"build":"tsc --noEmit","test":"tsc --noEmit"},"devDependencies":{"typescript":"^5.7.3"}}

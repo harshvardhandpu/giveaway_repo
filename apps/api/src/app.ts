@@ -6,6 +6,7 @@ import { searchRoutes } from "./routes/search.js";
 import { discoveryRoutes } from "./routes/discovery.js";
 import { investigationRoutes } from "./routes/investigation.js";
 import { evaluationRoutes } from "./routes/evaluation.js";
+import { connectorRoutes } from "./routes/connectors.js";
 
 export function buildApp() {
   const app = Fastify({ logger: true });
@@ -17,5 +18,6 @@ export function buildApp() {
   app.register(discoveryRoutes);
   app.register(investigationRoutes);
   app.register(evaluationRoutes);
+  app.register(connectorRoutes);
   return app;
 }

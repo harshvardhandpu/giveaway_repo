@@ -1,0 +1,1 @@
+import {describe,it,expect}from"vitest";import{detectGiveaway}from"../src/lib/giveaway-detection.js";describe("detection",()=>it("detects SOL giveaways",()=>expect(detectGiveaway("10 SOL giveaway - follow and reply")).toMatchObject({isGiveaway:true,amount:"10 SOL",confidence:.92})));

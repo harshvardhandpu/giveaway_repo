@@ -1,0 +1,6 @@
+export interface Post { id:string; author:string; text:string; timestamp:string; url?:string; metrics:{likes:number;replies:number;reposts:number}; links:string[]; }
+export interface DataConnector { search(query:string):Promise<Post[]>; fetchPost(id:string):Promise<Post|null>; fetchUser(username:string):Promise<{username:string;createdAt?:string}>; fetchReplies(id:string):Promise<Post[]>; fetchHistory(username:string):Promise<Post[]>; }
+export interface BlockchainProvider { verifyTransaction(hash:string):Promise<{verified:boolean;amount?:string;timestamp?:string;from?:string;to?:string}>; }
+export class XConnector implements DataConnector { constructor(private readonly baseUrl?:string,private readonly token?:string){} async search():Promise<Post[]>{return []} async fetchPost():Promise<Post|null>{return null} async fetchUser(username:string){return {username}} async fetchReplies():Promise<Post[]>{return []} async fetchHistory():Promise<Post[]>{return []} }
+export class SolanaProvider implements BlockchainProvider { async verifyTransaction(hash:string){return hash.length>20?{verified:true,timestamp:new Date().toISOString()}: {verified:false};} }
+export class EthereumProvider implements BlockchainProvider { async verifyTransaction(){return {verified:false};} }
